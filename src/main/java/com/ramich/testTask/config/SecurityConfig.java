@@ -21,21 +21,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .logout().logoutSuccessUrl("/");
     }
-
-    @Bean
-    public UserDetailsService users(){
-        UserDetails user = User.builder()
-            .username("user")
-            .password("{bcrypt}$2a$12$81.D5SeII3lJke7M32FBYe.2IS3PVJRi1svAmzGAAf6h0NltVmCKi")
-            .roles("USER")
-            .build();
-
-        UserDetails admin = User.builder()
-            .username("admin")
-            .password("{bcrypt}$2a$12$QXMk7.Bi43rH2LFQdXK9JuQ0cNczT0J32umRnILZDnibabgIJ/gLW")
-            .roles("ADMIN", "USER")
-            .build();
-
-        return new InMemoryUserDetailsManager(user, admin);
-    }
 }
