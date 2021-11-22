@@ -32,17 +32,12 @@ public class UserServiceImpl implements UserService{
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public boolean saveUser(User user) {
-        User some = findByUsername(user.getUsername());
-        if(some != null){
-            return false;
-        }
+    public void saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepo.getById(1));
         user.setRoles(roles);
         userRepo.save(user);
-        return true;
     }
 
     @Override

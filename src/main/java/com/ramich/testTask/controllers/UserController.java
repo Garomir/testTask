@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 public class UserController {
@@ -26,8 +27,11 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public void register(@RequestBody User user){
+    public void register(@RequestBody @Valid RegDTO dto){
         //System.out.println("" + user.getUsername() + " - " + user.getPassword());
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setPassword(dto.getPassword());
         userService.saveUser(user);
     }
 

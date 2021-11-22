@@ -23,8 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/registration").permitAll()
                 .antMatchers("/notes").authenticated()
+                .antMatchers("/", "/registration").permitAll()
                 .and()
                 .formLogin()
                 .defaultSuccessUrl("/notes", true)
