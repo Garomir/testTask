@@ -7,11 +7,12 @@ import com.ramich.testTask.services.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/notes")
+@RequestMapping("/notes")
 public class NotesController {
 
     private NoteService noteService;
@@ -34,22 +35,30 @@ public class NotesController {
     }
 
     @PostMapping
-    public void addNote(@RequestBody MessageRequest messageRequest){
-        //вытащить username из токена и засунуть в note
+    public void addNote(HttpServletRequest request, @RequestBody MessageRequest messageRequest){
+        //вытащить username из токена
+        String token = jwtFilter.getTokenFromRequest(request);
+        String username = jwtProvider.getLoginFromToken(token);
+
         Note note = new Note();
         note.setText(messageRequest.getMessage());
-        note.setUsername("Ram2");
+        note.setUsername(username);
         noteService.addNote(note);
     }
 
     @GetMapping
-    public String test(){
-        return "Authenticated message!";
+    public List<Note> allNotes(HttpServletRequest request){
+        String token = jwtFilter.getTokenFromRequest(request);
+        String username = jwtProvider.getLoginFromToken(token);
+
+        return noteService.getNotesByUsername(username);
     }
 
-    /*@GetMapping
-    public List<Note> history10(@RequestBody MessageRequest messageRequest){
-        //вытащить username из токена и засунуть в note
-        noteService.getHistory10();
-    }*/
+    @GetMapping("/history10")
+    public List<Note> history10(HttpServletRequest request){
+        String token = jwtFilter.getTokenFromRequest(request);
+        String username = jwtProvider.getLoginFromToken(token);
+
+        return noteService.getHistory10(username);
+    }
 }

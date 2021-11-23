@@ -29,6 +29,6 @@ public class NoteServiceImpl implements NoteService{
 
     @Override
     public List<Note> getHistory10(String username) {
-        return noteRepo.findByUsername(username);
+        return noteRepo.history10NotesByUsername(username);
     }
 }
