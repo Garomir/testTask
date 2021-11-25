@@ -1,5 +1,6 @@
 package com.ramich.testTask.controllers;
 
+//сущность для получения сообщения от пользователя
 public class MessageRequest {
     private String message;
 

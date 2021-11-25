@@ -21,11 +21,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserRepo userRepo;
 
+    //инжектим зависимости
     @Autowired
     public void setUserRepo(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
+    //Чтобы Spring Security мог управлять пользователями мы возвращаем UserDetails по пользователю из нашей БД
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

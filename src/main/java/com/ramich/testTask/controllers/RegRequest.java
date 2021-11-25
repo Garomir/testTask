@@ -1,5 +1,6 @@
 package com.ramich.testTask.controllers;
 
+//сущность для отправки пользователю токена
 public class RegRequest {
     private String username;
     private String password;

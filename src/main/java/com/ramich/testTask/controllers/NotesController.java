@@ -19,6 +19,8 @@ public class NotesController {
     private JwtProvider jwtProvider;
     private JwtFilter jwtFilter;
 
+    //Инжектим зависимости
+
     @Autowired
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
@@ -34,31 +36,37 @@ public class NotesController {
         this.jwtFilter = jwtFilter;
     }
 
+    //Эндпоинты
+    //добавляем новую заметку по имени пользователя
     @PostMapping
     public void addNote(HttpServletRequest request, @RequestBody MessageRequest messageRequest){
-        //вытащить username из токена
-        String token = jwtFilter.getTokenFromRequest(request);
-        String username = jwtProvider.getLoginFromToken(token);
-
         Note note = new Note();
         note.setText(messageRequest.getMessage());
-        note.setUsername(username);
+        note.setUsername(getUsernameFromRequest(request));
         noteService.addNote(note);
     }
 
+    //получаем все заметки по имени пользователя
     @GetMapping
     public List<Note> allNotes(HttpServletRequest request){
-        String token = jwtFilter.getTokenFromRequest(request);
-        String username = jwtProvider.getLoginFromToken(token);
-
-        return noteService.getNotesByUsername(username);
+        return noteService.getNotesByUsername(getUsernameFromRequest(request));
     }
 
+    //получаем последние 10 заметок по имени пользователя
     @GetMapping("/history10")
     public List<Note> history10(HttpServletRequest request){
-        String token = jwtFilter.getTokenFromRequest(request);
-        String username = jwtProvider.getLoginFromToken(token);
+        return noteService.getHistory10(getUsernameFromRequest(request));
+    }
 
-        return noteService.getHistory10(username);
+    //удаляем заметку по его id
+    @DeleteMapping("/{noteId}")
+    public void deleteNote(@PathVariable("noteId") int noteId){
+        noteService.deleteNote(noteId);
+    }
+
+    //достаем username из токена, который берем из входящего запроса HttpServletRequest
+    private String getUsernameFromRequest(HttpServletRequest request){
+        String token = jwtFilter.getTokenFromRequest(request);
+        return jwtProvider.getLoginFromToken(token);
     }
 }
