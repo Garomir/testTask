@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface NoteRepo extends JpaRepository<Note, Integer> {
     List<Note> findByUsername(String username);
-    @Query(value = "SELECT * FROM notes  WHERE username = :username ORDER BY id DESC LIMIT 10",nativeQuery = true)
+    @Query(value = "SELECT * FROM notes WHERE username = :username ORDER BY id DESC LIMIT 10",nativeQuery = true)
     List<Note> history10NotesByUsername(@Param("username") String username);
 }
