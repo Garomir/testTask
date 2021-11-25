@@ -28,6 +28,7 @@ public class UserController {
     }
 
     //Эндпоинты
+    //home
     @GetMapping("/")
     public String home(){
         return "home";

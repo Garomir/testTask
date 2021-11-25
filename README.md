@@ -4,10 +4,12 @@
   <li><a href="#functionality">Функционал</a></li>
   <li><a href="#tehnologies">Технологии</a></li>
   <li><a href="#architecture">Архитектура</a></li>
+  <li><a href="#instruction">Инструкция по запуску</a></li>
+  <li><a href="#api">API</a></li>
   <li><a href="#author">Автор</a></li>
 </ul>
 <h2><a name="description">Описание</a></h2>
-  <h4>Клиент-серверное REST CRUD приложение. Для работы с данными из БД SQLite используется Hibernate. Регистрация с помощью Spring Security. Каждый зарегестрированный пользователь имеет доступ только к своим заметкам.</h4>
+  <h4>Клиент-серверное REST CRUD приложение. Для работы с данными из БД SQLite используется Hibernate. Регистрация с помощью Spring Security. Каждый зарегестрированный пользователь имеет доступ только к своим заметкам. Также используется Dockerfile для запуска приложения в контейнере.</h4>
 <h2><a name="functionality">Функционал</a></h2>
   <ul>
     <li>Регистрация пользователя</li>
@@ -26,6 +28,7 @@
     <li>Java 11</li>
     <li>Spring Security</li>
     <li>JWT</li>
+    <li>Docker</li>
   </ul>
 <h2><a name="architecture">Архитектура</a></h2>
   <h4>Проект реализован по шаблону MVC и разделён на слои:</h4>
@@ -51,6 +54,33 @@
       <p>3.5 <a href="https://github.com/Garomir/testTask/blob/master/src/main/java/com/ramich/testTask/services/UserDetailsServiceImpl.java">UserDetailsServiceImpl</a> - Реализация интерфейса UserDetailsService для преобразования пользователя в UserDetails</p>
     </li>
   </ol>
+<h2><a name="instruction">Инструкция по запуску</a></h2>
+    <ol>
+        <li><p>Открываем терминал.</p></li>
+        <li><p>С помощью git клонируем проект к себе на компьютер:</br>
+	        git clone https://github.com/Garomir/testTask</p></li>
+        <li><p>Переходим в папку с проектом:</br>
+	        cd {путь к папке}/testTask</p></li>
+        <li><p>Собираем образ из Dockerfile командой:</br>
+	        docker build -t testtask .</p></li>
+        <li><p>Запускаем контейнер командой:</br>
+	        docker run -d -p 8080:8080 -t testtask</p></li>
+        <li><p>Используя Postman тестируем API нашего приложения:</p>
+<h2><a name="api">API</a></h2>
+    <p>Доступ для всех:</p>
+    <ul>
+        <li>GET	http://localhost:8080/			- home</li>
+        <li>POST	http://localhost:8080/registration	- регистрация, отправляем json(логин,пароль)</li>
+        <li>POST	http://localhost:8080/login		- аутентификация, отправляем json(логин,пароль), получаем токен</li>
+    </ul>
+    <p>Доступ для залогиненных пользователей с полученным токеном:</p>
+    <ul>
+        <li>POST	http://localhost:8080/notes		- добавить новую заметку, отправляем json(message)</li>
+        <li>GET	http://localhost:8080/notes		- получить список всех заметок пользователя</li>
+        <li>GET	http://localhost:8080/notes/history10	- получить последние 10 заметок пользователя</li>
+        <li>GET	http://localhost:8080/getusers		- получить список всех пользователей</li>
+        <li>DELETE	http://localhost:8080/notes/{id}	- удалить заметку по ее id</li>
+    </ul>
 <h2><a name="author">Автор</a></h2>
   <p>Сафуанов Рамиль</p>
   <p>Java-разработчик</p>
