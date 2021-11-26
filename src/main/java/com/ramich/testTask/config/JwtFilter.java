@@ -21,12 +21,14 @@ import static org.springframework.util.StringUtils.hasText;
 public class JwtFilter extends GenericFilterBean {
     public static final String AUTHORIZATION = "Authorization";
 
+    //Инжектим зависимости
     @Autowired
     private JwtProvider jwtProvider;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    //метод который срабатывает при каждом запросе пользователей
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
@@ -39,6 +41,7 @@ public class JwtFilter extends GenericFilterBean {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
+    //получаем токен из входного запроса
     public String getTokenFromRequest(HttpServletRequest request) {
         String bearer = request.getHeader(AUTHORIZATION);
         if (hasText(bearer) && bearer.startsWith("Bearer ")) {

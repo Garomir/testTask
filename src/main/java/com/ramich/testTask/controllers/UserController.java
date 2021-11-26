@@ -15,6 +15,8 @@ public class UserController {
     private UserService userService;
     private JwtProvider jwtProvider;
 
+    //Инжектим зависимости
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -25,11 +27,14 @@ public class UserController {
         this.jwtProvider = jwtProvider;
     }
 
+    //Эндпоинты
+    //home
     @GetMapping("/")
     public String home(){
         return "home";
     }
 
+    //Регистрируем нового пользователя, получая на вход json с именем и паролем
     @PostMapping("/registration")
     public void register(@RequestBody RegRequest request){
         User user = new User();
@@ -38,13 +43,16 @@ public class UserController {
         userService.saveUser(user);
     }
 
+    //Залогиниваем пользователя, получая на вход json с именем и паролем
+    //В ответ отправляем токен пользователя
     @PostMapping("/login")
-    public AuthResponce login(@RequestBody User user){
-        User u = userService.findByUsername(user.getUsername());
+    public AuthResponce login(@RequestBody RegRequest request){
+        User u = userService.findByUsername(request.getUsername());
         String token = jwtProvider.generateToken(u.getUsername());
         return new AuthResponce(token);
     }
 
+    //Получаем список всех зарегестрированных пользователей
     @GetMapping("/getusers")
     public List<User> getUsers(){
         return userService.findAll();

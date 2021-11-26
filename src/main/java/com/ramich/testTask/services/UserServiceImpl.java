@@ -18,6 +18,7 @@ public class UserServiceImpl implements UserService{
     private UserRepo userRepo;
     private RoleRepo roleRepo;
 
+    //инжектим зависимости
     @Autowired
     public void setUserRepo(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    //Сохраняем пользователя в БД
     @Override
     public void saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -40,19 +42,15 @@ public class UserServiceImpl implements UserService{
         userRepo.save(user);
     }
 
+    //Ищем пользователя по username
     @Override
     public User findByUsername(String username) {
         return userRepo.findByUsername(username);
     }
 
+    //Список всех пользователей
     @Override
     public List<User> findAll() {
         return userRepo.findAll();
-    }
-
-    @Override
-    public void updateUser(User user) {
-        User some = findByUsername(user.getUsername());
-        userRepo.save(user);
     }
 }

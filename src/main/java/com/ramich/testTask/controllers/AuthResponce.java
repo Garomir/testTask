@@ -1,5 +1,6 @@
 package com.ramich.testTask.controllers;
 
+//сущность для отправки пользователю токена
 public class AuthResponce {
     private String token;
 

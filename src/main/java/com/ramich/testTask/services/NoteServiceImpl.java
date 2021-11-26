@@ -23,6 +23,11 @@ public class NoteServiceImpl implements NoteService{
     }
 
     @Override
+    public void deleteNote(int noteId) {
+        noteRepo.deleteById(noteId);
+    }
+
+    @Override
     public List<Note> getNotesByUsername(String username) {
         return noteRepo.findByUsername(username);
     }
