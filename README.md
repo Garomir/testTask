@@ -70,8 +70,8 @@
     <p>Доступ для всех:</p>
     <ul>
         <li>GET	http://localhost:8080/			- home</li>
-        <li>POST	http://localhost:8080/registration	- регистрация, отправляем json(логин,пароль)</li>
-        <li>POST	http://localhost:8080/login		- аутентификация, отправляем json(логин,пароль), получаем токен</li>
+        <li>POST	http://localhost:8080/registration	- регистрация, отправляем json(username,password)</li>
+        <li>POST	http://localhost:8080/login		- аутентификация, отправляем json(username,password), получаем токен</li>
     </ul>
     <p>Доступ для залогиненных пользователей с полученным токеном:</p>
     <ul>
