@@ -13,9 +13,11 @@ import java.util.Date;
 
 @Component
 public class JwtProvider {
+    //секретное слово для алгоритма подписи токена
     @Value("$(jwt.secret)")
     private String jwtSecret;
 
+    //генерируем токен используя username, срок действия и алгоритм подписи
     public String generateToken(String login) {
         Date date = Date.from(LocalDateTime.now().plusMinutes(30).atZone(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
@@ -25,6 +27,7 @@ public class JwtProvider {
                 .compact();
     }
 
+    //получаем username из токена
     public String getLoginFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         return claims.getSubject();

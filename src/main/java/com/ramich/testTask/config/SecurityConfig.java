@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
+    //Инжектим зависимости
     @Autowired
     private JwtFilter jwtFilter;
 
@@ -25,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
     }
 
+    //настройки безопасности
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -44,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
+    //энкодер для хэширования пароля
     @Bean
     protected BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

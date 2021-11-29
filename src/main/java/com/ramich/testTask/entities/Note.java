@@ -1,6 +1,7 @@
 package com.ramich.testTask.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "notes")
@@ -35,5 +36,18 @@ public class Note {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Note note = (Note) o;
+        return id == note.id && Objects.equals(text, note.text) && Objects.equals(username, note.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, username);
     }
 }
